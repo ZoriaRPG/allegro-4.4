@@ -336,6 +336,9 @@ set(ALLEGRO_SRC_PSP_FILES
         src/psp/pvtable8.c
         )
 
+set(ALLEGRO_SRC_3DS_FILES
+        )
+
 set(ALLEGRO_INCLUDE_ALLEGRO_FILES
         include/allegro/3d.h
         include/allegro/3dmaths.h
@@ -395,6 +398,7 @@ set(ALLEGRO_INCLUDE_ALLEGRO_INTERNAL_FILES
         )
 
 set(ALLEGRO_INCLUDE_ALLEGRO_PLATFORM_FILES
+        include/allegro/platform/aint3ds.h
         include/allegro/platform/aintbeos.h
         include/allegro/platform/aintdos.h
         include/allegro/platform/aintlnx.h
@@ -404,9 +408,13 @@ set(ALLEGRO_INCLUDE_ALLEGRO_PLATFORM_FILES
         include/allegro/platform/aintqnx.h
         include/allegro/platform/aintunix.h
         include/allegro/platform/aintwin.h
+        include/allegro/platform/al3ds.h
+        include/allegro/platform/al3dscfg.h
         include/allegro/platform/al386gcc.h
         include/allegro/platform/al386vc.h
         include/allegro/platform/al386wat.h
+        include/allegro/platform/al3ds.h
+        include/allegro/platform/al3dscfg.h
         include/allegro/platform/albcc32.h
         include/allegro/platform/albecfg.h
         include/allegro/platform/albeos.h

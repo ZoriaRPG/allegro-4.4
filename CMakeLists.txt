@@ -16,6 +16,7 @@
 #   Watcom
 #   DMC
 #   PSP port?
+#   3DS?
 
 #-----------------------------------------------------------------------------#
 #
@@ -307,6 +308,15 @@ if(PSP)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -G0")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -G0 -fno-exceptions -fno-rtti")
 endif(PSP)
+
+if(3DS)
+    set(ALLEGRO_3DS 1)
+    set(ARCH_3DS "-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft")
+    set(FLAGS_3DS "-mword-relocations -fomit-frame-pointer -ffunction-sections -DARM11 -D_3DS")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ARCH_3DS} ${FLAGS_3DS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ARCH_3DS} ${FLAGS_3DS} -fno-exceptions -fno-rtti")
+    set(CMAKE_EXE_LINKER_FLAGS "-specs=3dsx.specs")
+endif(3DS)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WFLAGS} ${WFLAGS_C_ONLY}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WFLAGS} ${WFLAGS_CXX_ONLY}")
@@ -679,6 +689,16 @@ if(PSP)
     m pspaudio pspgu psprtc pspdebug pspdisplay pspge pspctrl pspsdk c pspnet pspnet_inet pspnet_resolver psputility pspuser pspkernel)
 endif(PSP)
 
+# -- 3DS --
+
+if(3DS)
+    include_directories(SYSTEM ${DKPRO}/libctru/include)
+    link_directories(${DKPRO}/libctru/lib)
+    list(APPEND PLATFORM_SOURCES ${ALLEGRO_SRC_3DS_FILES})
+    list(APPEND PLATFORM_LIBS
+    citro3d ctru m)
+endif(3DS)
+
 #-----------------------------------------------------------------------------#
 #
 # Generate and install headers
@@ -853,6 +873,19 @@ if(PSP)
     target_link_libraries(allegro alleg-main)
     install_our_library(alleg-main)
 endif(PSP)
+
+if(3DS)
+    add_our_library(alleg-main STATIC
+    src/3ds/3main.c
+    )
+    set_target_properties(alleg-main
+    PROPERTIES
+    OUTPUT_NAME alleg-main${BUILD_TYPE_SUFFIX}
+    COMPILE_FLAGS -DALLEGRO_SRC
+    )
+    target_link_libraries(allegro alleg-main)
+    install_our_library(alleg-main)
+endif(3DS)
 
 #-----------------------------------------------------------------------------#
 #
